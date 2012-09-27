@@ -116,7 +116,12 @@ subsequences (Cons a xs) = subsequences xs ++ (map (Cons a) $ subsequences xs)
 
 -- (*) Все перестановки элементов данного списка
 permutations :: List a -> List (List a)
-permutations = undefined
+permutations Nil = Cons Nil Nil
+permutations a = extr (length a) a
+
+extr :: Nat -> List a -> List (List a)
+extr Zero a = Nil
+extr (Succ a) (Cons b c) = (map (Cons b) $ permutations c) ++ (extr a $ reverse (Cons b $ reverse c))
 
 -- (*) Если можете. Все перестановки элементов данного списка
 -- другим способом
