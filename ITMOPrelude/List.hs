@@ -189,7 +189,8 @@ concat = foldr (++) Nil
 
 -- Эквивалент (concat . map), но эффективнее
 concatMap :: (a -> List b) -> List a -> List b
-concatMap = undefined
+concatMap p Nil = Nil
+concatMap p (Cons a b) = (p a) ++ (concatMap p b)
 
 -- Сплющить два списка в список пар длинны min (length a, length b)
 zip :: List a -> List b -> List (Pair a b)
