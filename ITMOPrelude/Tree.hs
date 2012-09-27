@@ -6,42 +6,42 @@ import ITMOPrelude.List
 
 data Tree a = Null | Node  a (Tree a) (Tree a)  deriving (Show,Read)
 
--- ãáâ®¥ ¤¥à¥¢®
+-- ÐŸÑƒÑÑ‚Ð¾Ðµ Ð´ÐµÑ€ÐµÐ²Ð¾
 empty = Null
 
--- „®¡ ¢¨âì ª®à¥­ì
+-- Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÐºÐ¾Ñ€ÐµÐ½ÑŒ
 addRoot :: Tree a -> a -> Tree a
 addRoot Null r = Node r Null Null
 addRoot t r = Node r t Null
 
--- „®¡ ¢¨âì í«¥¬¥­â ¨ á¤¥« âì ¥£® á ¬ë¬ «¥¢ë¬
+-- Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð¸ ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ ÐµÐ³Ð¾ ÑÐ°Ð¼Ñ‹Ð¼ Ð»ÐµÐ²Ñ‹Ð¼
 addLeft :: Tree a -> a -> Tree a
 addLeft Null r = Node r Null Null
 addLeft (Node t l r) e = Node t (addLeft l e) r
 
--- „®¡ ¢¨âì í«¥¬¥­â ¨ á¤¥« âì ¥£® á ¬ë¬ ¯à ¢ë¬
+-- Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚ Ð¸ ÑÐ´ÐµÐ»Ð°Ñ‚ÑŒ ÐµÐ³Ð¾ ÑÐ°Ð¼Ñ‹Ð¼ Ð¿Ñ€Ð°Ð²Ñ‹Ð¼
 addRight :: Tree a -> a -> Tree a
 addRight Null r = Node r Null Null
 addRight (Node t l r) e = Node t l (addRight r e)
 
--- ®¢®à®â ¢«¥¢®
+-- ÐŸÐ¾Ð²Ð¾Ñ€Ð¾Ñ‚ Ð²Ð»ÐµÐ²Ð¾
 turnLeft :: Tree a -> Tree a
 turnLeft Null = Null
 turnLeft (Node t Null r) = Node t Null r
 turnLeft (Node a (Node t tl tr) ar) = Node t tl (Node a tr ar)
 
--- ®¢®à®â ¢¯à ¢®
+-- ÐŸÐ¾Ð²Ð¾Ñ€Ð¾Ñ‚ Ð²Ð¿Ñ€Ð°Ð²Ð¾
 turnRight :: Tree a -> Tree a
 turnRight Null = Null
 turnRight (Node t l Null) = Node t l Null
 turnRight (Node a al (Node t tl tr)) = Node t (Node a tl al) tr
 
--- €­ «®£ äã­ªæ¨¨ map. à¨¬¥­¨âì äã­ªæ¨î ª ª ¦¤®¬ã í«¥¬¥­âã ¤¥à¥¢ 
+-- ÐÐ½Ð°Ð»Ð¾Ð³ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ map. ÐŸÑ€Ð¸Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑŽ Ðº ÐºÐ°Ð¶Ð´Ð¾Ð¼Ñƒ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ñƒ Ð´ÐµÑ€ÐµÐ²Ð°
 mapTree :: (a -> b) -> Tree a -> Tree b
 mapTree f Null = Null
 mapTree f (Node t l r) = (Node (f t) (mapTree f l) (mapTree f r))
 
--- €­ «®£ äã­ªæ¨¨ foldr.
+-- ÐÐ½Ð°Ð»Ð¾Ð³ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ foldr.
 foldrTree :: (a -> b -> b) -> b -> Tree a -> b
 foldrTree f z Null = z
 foldrTree f z (Node t l r) = foldrTree f (f t (foldrTree f z r)) l
