@@ -4,16 +4,16 @@ module ITMOPrelude.Primitive where
 import Prelude (Show,Read)
 
 ---------------------------------------------
--- Синтаксис лямбда-выражений
+-- ╨б╨╕╨╜╤В╨░╨║╤Б╨╕╤Б ╨╗╤П╨╝╨▒╨┤╨░-╨▓╤Л╤А╨░╨╢╨╡╨╜╨╕╨╣
 
--- Эквивалентные определения
+-- ╨н╨║╨▓╨╕╨▓╨░╨╗╨╡╨╜╤В╨╜╤Л╨╡ ╨╛╨┐╤А╨╡╨┤╨╡╨╗╨╡╨╜╨╕╤П
 example1 x  = x
 example1'   = \x -> x
 example1''  = let y = \x -> x in y
 example1''' = y where
     y = \x -> x
 
--- Снова эквивалентные определения
+-- ╨б╨╜╨╛╨▓╨░ ╤Н╨║╨▓╨╕╨▓╨░╨╗╨╡╨╜╤В╨╜╤Л╨╡ ╨╛╨┐╤А╨╡╨┤╨╡╨╗╨╡╨╜╨╕╤П
 example2 x y  = x %+ y
 example2' x   = \y -> x %+ y
 example2''    = \x -> \y -> x %+ y
@@ -22,44 +22,44 @@ example2''''  = let z = \x y -> x %+ y in z
 example2''''' = z where
     z x = \y -> x %+ y
 
--- Зацикленное выражение
+-- ╨Ч╨░╤Ж╨╕╨║╨╗╨╡╨╜╨╜╨╛╨╡ ╨▓╤Л╤А╨░╨╢╨╡╨╜╨╕╨╡
 undefined = undefined
 
--- Ниже следует реализовать все термы, состоящие из undefined заглушки.
--- Любые термы можно переписывать (natEq и natLt --- хорошие кандидаты).
+-- ╨Э╨╕╨╢╨╡ ╤Б╨╗╨╡╨┤╤Г╨╡╤В ╤А╨╡╨░╨╗╨╕╨╖╨╛╨▓╨░╤В╤М ╨▓╤Б╨╡ ╤В╨╡╤А╨╝╤Л, ╤Б╨╛╤Б╤В╨╛╤П╤Й╨╕╨╡ ╨╕╨╖ undefined ╨╖╨░╨│╨╗╤Г╤И╨║╨╕.
+-- ╨Ы╤О╨▒╤Л╨╡ ╤В╨╡╤А╨╝╤Л ╨╝╨╛╨╢╨╜╨╛ ╨┐╨╡╤А╨╡╨┐╨╕╤Б╤Л╨▓╨░╤В╤М (natEq ╨╕ natLt --- ╤Е╨╛╤А╨╛╤И╨╕╨╡ ╨║╨░╨╜╨┤╨╕╨┤╨░╤В╤Л).
 
 -------------------------------------------
--- Примитивные типы
+-- ╨Я╤А╨╕╨╝╨╕╤В╨╕╨▓╨╜╤Л╨╡ ╤В╨╕╨┐╤Л
 
--- Тип с единственным элементом
+-- ╨в╨╕╨┐ ╤Б ╨╡╨┤╨╕╨╜╤Б╤В╨▓╨╡╨╜╨╜╤Л╨╝ ╤Н╨╗╨╡╨╝╨╡╨╜╤В╨╛╨╝
 data Unit = Unit deriving (Show,Read)
 
--- Пара, произведение
+-- ╨Я╨░╤А╨░, ╨┐╤А╨╛╨╕╨╖╨▓╨╡╨┤╨╡╨╜╨╕╨╡
 data Pair a b = Pair { fst :: a, snd :: b } deriving (Show,Read)
 
--- Вариант, копроизведение
+-- ╨Т╨░╤А╨╕╨░╨╜╤В, ╨║╨╛╨┐╤А╨╛╨╕╨╖╨▓╨╡╨┤╨╡╨╜╨╕╨╡
 data Either a b = Left a | Right b deriving (Show,Read)
 
--- Частый частный случай, изоморфно Either Unit a
+-- ╨з╨░╤Б╤В╤Л╨╣ ╤З╨░╤Б╤В╨╜╤Л╨╣ ╤Б╨╗╤Г╤З╨░╨╣, ╨╕╨╖╨╛╨╝╨╛╤А╤Д╨╜╨╛ Either Unit a
 data Maybe a = Nothing | Just a deriving (Show,Read)
 
--- Частый частный случай, изоморфно Either Unit Unit
+-- ╨з╨░╤Б╤В╤Л╨╣ ╤З╨░╤Б╤В╨╜╤Л╨╣ ╤Б╨╗╤Г╤З╨░╨╣, ╨╕╨╖╨╛╨╝╨╛╤А╤Д╨╜╨╛ Either Unit Unit
 data Bool = False | True deriving (Show,Read)
 
--- Следует отметить, что встроенный if с этим Bool использовать нельзя,
--- зато case всегда работает.
+-- ╨б╨╗╨╡╨┤╤Г╨╡╤В ╨╛╤В╨╝╨╡╤В╨╕╤В╤М, ╤З╤В╨╛ ╨▓╤Б╤В╤А╨╛╨╡╨╜╨╜╤Л╨╣ if ╤Б ╤Н╤В╨╕╨╝ Bool ╨╕╤Б╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╤М ╨╜╨╡╨╗╤М╨╖╤П,
+-- ╨╖╨░╤В╨╛ case ╨▓╤Б╨╡╨│╨┤╨░ ╤А╨░╨▒╨╛╤В╨░╨╡╤В.
 
--- Ну или можно реализовать свой if
+-- ╨Э╤Г ╨╕╨╗╨╕ ╨╝╨╛╨╢╨╜╨╛ ╤А╨╡╨░╨╗╨╕╨╖╨╛╨▓╨░╤В╤М ╤Б╨▓╨╛╨╣ if
 if' True a b = a
 if' False a b = b
 
--- Трихотомия. Замечательный тип, показывающий результат сравнения
+-- ╨в╤А╨╕╤Е╨╛╤В╨╛╨╝╨╕╤П. ╨Ч╨░╨╝╨╡╤З╨░╤В╨╡╨╗╤М╨╜╤Л╨╣ ╤В╨╕╨┐, ╨┐╨╛╨║╨░╨╖╤Л╨▓╨░╤О╤Й╨╕╨╣ ╤А╨╡╨╖╤Г╨╗╤М╤В╨░╤В ╤Б╤А╨░╨▓╨╜╨╡╨╜╨╕╤П
 data Tri = LT | EQ | GT deriving (Show,Read)
 
 -------------------------------------------
--- Булевы значения
+-- ╨С╤Г╨╗╨╡╨▓╤Л ╨╖╨╜╨░╤З╨╡╨╜╨╕╤П
 
--- Логическое "НЕ"
+-- ╨Ы╨╛╨│╨╕╤З╨╡╤Б╨║╨╛╨╡ "╨Э╨Х"
 not :: Bool -> Bool
 not True = False
 not False = True
@@ -70,19 +70,19 @@ pairBoolToTri False False = GT
 pairBoolToTri True False = LT
 
 infixr 3 &&
--- Логическое "И"
+-- ╨Ы╨╛╨│╨╕╤З╨╡╤Б╨║╨╛╨╡ "╨Ш"
 (&&) :: Bool -> Bool -> Bool
 True  && x = x
 False && _ = False
 
 infixr 2 ||
--- Логическое "ИЛИ"
+-- ╨Ы╨╛╨│╨╕╤З╨╡╤Б╨║╨╛╨╡ "╨Ш╨Ы╨Ш"
 (||) :: Bool -> Bool -> Bool
 True  || _ = True
 False || x = x
 
 -------------------------------------------
--- Натуральные числа
+-- ╨Э╨░╤В╤Г╤А╨░╨╗╤М╨╜╤Л╨╡ ╤З╨╕╤Б╨╗╨░
 
 data Nat = Zero | Succ Nat deriving (Show,Read)
 
@@ -94,7 +94,7 @@ natToBool Zero = False
 natToBool (Succ _) = True
 
 
--- Сравнивает два натуральных числа
+-- ╨б╤А╨░╨▓╨╜╨╕╨▓╨░╨╡╤В ╨┤╨▓╨░ ╨╜╨░╤В╤Г╤А╨░╨╗╤М╨╜╤Л╤Е ╤З╨╕╤Б╨╗╨░
 natCmp :: Nat -> Nat -> Tri
 narCmp Zero Zero = EQ
 natCmp Zero (Succ _) = LT
@@ -102,14 +102,14 @@ natCmp (Succ _) Zero = GT
 natCmp (Succ n) (Succ m) = natCmp n m
 -- natCmp = undefined
 
--- n совпадает с m 
+-- n ╤Б╨╛╨▓╨┐╨░╨┤╨░╨╡╤В ╤Б m 
 natEq :: Nat -> Nat -> Bool
 natEq Zero     Zero     = True
 natEq Zero     (Succ _) = False
 natEq (Succ _) Zero     = False
 natEq (Succ n) (Succ m) = natEq n m
 
--- n меньше m
+-- n ╨╝╨╡╨╜╤М╤И╨╡ m
 natLt :: Nat -> Nat -> Bool
 natLt Zero     Zero     = False
 natLt Zero     (Succ m) = True
@@ -117,13 +117,13 @@ natLt (Succ n) Zero     = False
 natLt (Succ n) (Succ m) = natLt n m
 
 infixl 6 +.
--- Сложение для натуральных чисел
+-- ╨б╨╗╨╛╨╢╨╡╨╜╨╕╨╡ ╨┤╨╗╤П ╨╜╨░╤В╤Г╤А╨░╨╗╤М╨╜╤Л╤Е ╤З╨╕╤Б╨╡╨╗
 (+.) :: Nat -> Nat -> Nat
 Zero     +. m = m
 (Succ n) +. m = Succ (n +. m)
 
 infixl 6 -.
--- Вычитание для натуральных чисел
+-- ╨Т╤Л╤З╨╕╤В╨░╨╜╨╕╨╡ ╨┤╨╗╤П ╨╜╨░╤В╤Г╤А╨░╨╗╤М╨╜╤Л╤Е ╤З╨╕╤Б╨╡╨╗
 (-.) :: Nat -> Nat -> Nat
 Zero -. Zero = Zero
 Zero -. m = Zero
@@ -132,7 +132,7 @@ m -. Zero = m
 --n -. m = undefined
 
 infixl 7 *.
--- Умножение для натуральных чисел
+-- ╨г╨╝╨╜╨╛╨╢╨╡╨╜╨╕╨╡ ╨┤╨╗╤П ╨╜╨░╤В╤Г╤А╨░╨╗╤М╨╜╤Л╤Е ╤З╨╕╤Б╨╡╨╗
 (*.) :: Nat -> Nat -> Nat
 Zero     *. m = Zero
 (Succ n) *. m = m +. (n *. m)
@@ -147,7 +147,7 @@ natMod n Zero = undefined
 natMod Zero n = Zero
 natMod n m = (if' (natLt n m) n (natMod (n -. m) m))  
 
--- Целое и остаток от деления n на m
+-- ╨ж╨╡╨╗╨╛╨╡ ╨╕ ╨╛╤Б╤В╨░╤В╨╛╨║ ╨╛╤В ╨┤╨╡╨╗╨╡╨╜╨╕╤П n ╨╜╨░ m
 natDivMod :: Nat -> Nat -> Pair Nat Nat
 natDivMod Zero Zero = undefined
 natDivMod n Zero = undefined
@@ -155,15 +155,15 @@ natDivMod Zero m = Pair Zero Zero
 natDivMod n m = Pair (natDiv n m) (natMod n m) 
 --natDivMod n m = undefined
 
--- Поиск GCD алгоритмом Евклида (должен занимать 2 (вычислителельная часть) + 1 (тип) строчки)
+-- ╨Я╨╛╨╕╤Б╨║ GCD ╨░╨╗╨│╨╛╤А╨╕╤В╨╝╨╛╨╝ ╨Х╨▓╨║╨╗╨╕╨┤╨░ (╨┤╨╛╨╗╨╢╨╡╨╜ ╨╖╨░╨╜╨╕╨╝╨░╤В╤М 2 (╨▓╤Л╤З╨╕╤Б╨╗╨╕╤В╨╡╨╗╨╡╨╗╤М╨╜╨░╤П ╤З╨░╤Б╤В╤М) + 1 (╤В╨╕╨┐) ╤Б╤В╤А╨╛╤З╨║╨╕)
 gcd :: Nat -> Nat -> Nat
 gcd Zero n = Succ(Zero)
 gcd n m = (if' (natLt n m) (gcd (natMod m n) n) (gcd (natMod n m) m))
 
 -------------------------------------------
--- Целые числа
+-- ╨ж╨╡╨╗╤Л╨╡ ╤З╨╕╤Б╨╗╨░
 
--- Требуется, чтобы представление каждого числа было единственным
+-- ╨в╤А╨╡╨▒╤Г╨╡╤В╤Б╤П, ╤З╤В╨╛╨▒╤Л ╨┐╤А╨╡╨┤╤Б╤В╨░╨▓╨╗╨╡╨╜╨╕╨╡ ╨║╨░╨╢╨┤╨╛╨│╨╛ ╤З╨╕╤Б╨╗╨░ ╨▒╤Л╨╗╨╛ ╨╡╨┤╨╕╨╜╤Б╤В╨▓╨╡╨╜╨╜╤Л╨╝
 data Int = Neg Nat | Pos Nat deriving (Show,Read)
 
 intZero   = Pos natZero   -- 0
@@ -189,7 +189,7 @@ intNeg (Pos Zero) = (Pos Zero)
 intNeg (Pos (Succ a)) = (Neg a)
 intNeg (Neg a) = (Pos (Succ a))
 
--- Дальше также как для натуральных
+-- ╨Ф╨░╨╗╤М╤И╨╡ ╤В╨░╨║╨╢╨╡ ╨║╨░╨║ ╨┤╨╗╤П ╨╜╨░╤В╤Г╤А╨░╨╗╤М╨╜╤Л╤Е
 intCmp :: Int -> Int -> Tri
 intCmp n m = pairBoolToTri (intLt n m) (intEq n m )
 
@@ -205,7 +205,7 @@ intInc n m False = pairNatToInt (intSign n) ((intAbs n) -. (intAbs m))
 
 
 infixl 6 .+., .-.
--- У меня это единственный страшный терм во всём файле
+-- ╨г ╨╝╨╡╨╜╤П ╤Н╤В╨╛ ╨╡╨┤╨╕╨╜╤Б╤В╨▓╨╡╨╜╨╜╤Л╨╣ ╤Б╤В╤А╨░╤И╨╜╤Л╨╣ ╤В╨╡╤А╨╝ ╨▓╨╛ ╨▓╤Б╤С╨╝ ╤Д╨░╨╣╨╗╨╡
 (.+.) :: Int -> Int -> Int
 n .+. m = intInc (if' (natLt (intAbs n) (intAbs m)) m n) (if' (natLt (intAbs n) (intAbs m)) n m) (natEq (intSign n) (intSign m))
  
@@ -222,14 +222,14 @@ infixl 7 .*..
 n .*.. m = pairNatToInt (intSign n)((intAbs n) *. m)
 
 -------------------------------------------
--- Рациональные числа
+-- ╨а╨░╤Ж╨╕╨╛╨╜╨░╨╗╤М╨╜╤Л╨╡ ╤З╨╕╤Б╨╗╨░
 
 data Rat = Rat Int Nat
 
 ratNeg :: Rat -> Rat
 ratNeg (Rat x y) = Rat (intNeg x) y
 
--- У рациональных ещё есть обратные элементы
+-- ╨г ╤А╨░╤Ж╨╕╨╛╨╜╨░╨╗╤М╨╜╤Л╤Е ╨╡╤Й╤С ╨╡╤Б╤В╤М ╨╛╨▒╤А╨░╤В╨╜╤Л╨╡ ╤Н╨╗╨╡╨╝╨╡╨╜╤В╤Л
 ratInv :: Rat -> Rat
 ratInv (Rat x y)= Rat (pairNatToInt (intSign x) y) (intAbs x)
 
@@ -243,7 +243,7 @@ ratNumb (Rat x y) = x
 ratDec :: Rat -> Nat
 ratDec (Rat x y) = y
 
--- Дальше как обычно
+-- ╨Ф╨░╨╗╤М╤И╨╡ ╨║╨░╨║ ╨╛╨▒╤Л╤З╨╜╨╛
 ratCmp :: Rat -> Rat -> Tri
 ratCmp n m = pairBoolToTri (ratLt n m) (ratEq n m)
 
@@ -268,8 +268,8 @@ infixl 7 %*, %/
 n %/ m = n %* (ratInv m)
 
 -------------------------------------------
--- Операции над функциями.
--- Определены здесь, но использовать можно и выше
+-- ╨Ю╨┐╨╡╤А╨░╤Ж╨╕╨╕ ╨╜╨░╨┤ ╤Д╤Г╨╜╨║╤Ж╨╕╤П╨╝╨╕.
+-- ╨Ю╨┐╤А╨╡╨┤╨╡╨╗╨╡╨╜╤Л ╨╖╨┤╨╡╤Б╤М, ╨╜╨╛ ╨╕╤Б╨┐╨╛╨╗╤М╨╖╨╛╨▓╨░╤В╤М ╨╝╨╛╨╢╨╜╨╛ ╨╕ ╨▓╤Л╤И╨╡
 
 infixr 9 .
 f . g = \ x -> f (g x)
@@ -277,11 +277,11 @@ f . g = \ x -> f (g x)
 infixr 0 $
 f $ x = f x
 
--- Эквивалентные определения
+-- ╨н╨║╨▓╨╕╨▓╨░╨╗╨╡╨╜╤В╨╜╤Л╨╡ ╨╛╨┐╤А╨╡╨┤╨╡╨╗╨╡╨╜╨╕╤П
 example3   a b c = gcd a (gcd b c)
 example3'  a b c = gcd a $ gcd b c
 example3'' a b c = ($) (gcd a) (gcd b c)
 
--- И ещё эквивалентные определения
+-- ╨Ш ╨╡╤Й╤С ╤Н╨║╨▓╨╕╨▓╨░╨╗╨╡╨╜╤В╨╜╤Л╨╡ ╨╛╨┐╤А╨╡╨┤╨╡╨╗╨╡╨╜╨╕╤П
 example4  a b x = (gcd a (gcd b x))
 example4' a b = gcd a . gcd b
